@@ -1,2 +1,5 @@
-*.log
-./plugins
+# Ignore the plugins folder
+/plugins/
+
+# Ignore .log files in the root directory only
+/*.log
