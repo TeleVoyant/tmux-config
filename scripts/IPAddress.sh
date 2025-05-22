@@ -8,6 +8,12 @@ if [ "$count" -gt 0 ]; then
         ip_address=$(ip a | grep -E 'ppp|tun' -A 2 | awk '/inet /{print $2; exit}')
         # Print the interface name and its IP address
         printf '󰩠 %s %s:%s' "$count" "$interface" "$ip_address"
+    elif ip a | grep -E 'POINTOPOINT' >/dev/null 2>&1; then
+        # Extract the interface name (first three letters) and IP address of the interface
+        interface=$(ip a | grep -E 'POINTOPOINT' -A 2 | awk '/^[0-9]+:/{print substr($2, 1, 3); exit}')
+        ip_address=$(ip a | grep -E 'POINTOPOINT' -A 2 | awk '/inet /{print $2; exit}')
+        # Print the interface name and its IP address
+        printf '󰩠 %s %s:%s' "$count" "$interface" "$ip_address"
     else
         # Extract the interface name (first three letters) and IP address of the first interface with state UP
         interface=$(ip a | grep -A 2 'state UP' | awk '/^[0-9]+:/{print substr($2, 1, 3); exit}')
